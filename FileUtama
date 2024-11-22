@@ -1,0 +1,377 @@
+//Modul yang Digunakan = 1, 2, 3, 4, 5, 6, dan 8
+import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Random;
+
+//Deklaarasi Kelas Program
+//Modul 5, Class
+public class PembelianTiketKapal {
+    //Modul 5, Constuctor
+    public static void main(String[] args) {
+        //============Bagian DataBase=========
+        //Modul 1, Variabel & Array
+        //Modul 3, Perulangan For
+        //Modul 4, Method
+        //Modul 6, Setter
+        String Hari[] = new String[32];
+        for (int i = 1; i < Hari.length; i++) {
+            Hari[i] = Integer.toString(i);
+        }
+        String Bulan[] = {"Pilih", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"};
+        String NamaKapal[] = {"Pilih", "Kapal Pantura", "Kapal Sumatra", "Kapal Jamatra"};
+        String JumlahPnpg[] = {"Pilih", "1 Penumpang", "2 Penumpang", "3 Penumpang", "4 Penumpnag"};
+
+        ArrayList<String[]> Kota = new ArrayList<>();
+        Kota.clear();
+        Kota.add(new String[] {"Jakarta", "Semarang", "Surabaya", "Banyuwangi"});
+        Kota.add(new String[] {"Aceh", "Riau", "Medan", "Lampung"});
+        Kota.add(new String[] {"Aceh", "Riau", "Medan", "Lampung", "Jakarta", "Semarang", "Surabaya", "Banyuwangi"});
+
+        String TipeKelas[] = {"Pilih", "Ekonomi" , "Eksekutif", "Frist Class"};
+        String Kelamin[] ={"Pria", "Wanita"};
+
+        //============Bagian Layout=========
+        //Modul 4, Method
+        //Modul 6, Setter
+        JFrame form = new JFrame("Aplikasli Pemesanan Tiket Kapal");
+        form.setSize(480, 720);
+        form.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        form.setLocationRelativeTo(null);
+        form.setLayout(null);
+
+        JLabel labelJudul = new JLabel("Pembelian Tiket Kapal");
+        labelJudul.setBounds(155, 10, 220, 30);
+        form.add(labelJudul);
+
+        //============Bagian Data Pemesan=========
+        //Modul 4, Method
+        //Modul 6, Setter
+        JLabel labelPembeli = new JLabel("Nama Pembeli");
+        labelPembeli.setBounds(20,40, 220, 30);
+        form.add(labelPembeli);
+
+        JTextField textNamaPembeli = new JTextField();
+        textNamaPembeli.setBounds(180, 40,240, 20);
+        form.add(textNamaPembeli);
+
+        //Supaya Hanya Bisa Huruf
+        //Modul 2, Pengkondisian
+        //Modul 4, Method
+        //Modul 5, Polymorphism
+        //Modul 6, Setter & Getter
+        ((AbstractDocument) textNamaPembeli.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException, BadLocationException {
+                if (string != null && !string.matches(".*\\d.*")) {
+                    super.insertString(fb, offset, string, attr);
+                }
+            }
+
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                if (text != null && !text.matches(".*\\d.*")) {
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+
+        //============Bagian Nama Kapal=========
+        //Modul 4, Method
+        //Modul 6, Setter
+        JLabel labelNamaKapal = new JLabel("Nama Kapal");
+        labelNamaKapal.setBounds(20, 70, 100, 30);
+        form.add(labelNamaKapal);
+
+        JComboBox comboBoxNamaKapal = new JComboBox<>(NamaKapal);
+        comboBoxNamaKapal.setBounds(180,70, 120,20);
+        form.add(comboBoxNamaKapal);
+
+        JButton buttonLihatRute = new JButton("Pilih Rute");
+        buttonLihatRute.setBounds(320,70,100,20);
+        form.add(buttonLihatRute);
+
+        //============Bagian Jumlah Penumpang=========
+        //Modul 4, Method
+        //Modul 6, Setter
+        JLabel labelPenumpang = new JLabel("Jumlah Penumpang");
+        labelPenumpang.setBounds(20, 100,130, 30);
+        form.add(labelPenumpang);
+
+        JComboBox comboBoxPenumpang = new JComboBox<>(JumlahPnpg);
+        comboBoxPenumpang.setBounds(180, 100,120, 20);
+        form.add(comboBoxPenumpang);
+
+        JButton buttonIsiIdentitas = new JButton("Isi Data");
+        buttonIsiIdentitas.setBounds(320,100,100,20);
+        form.add(buttonIsiIdentitas);
+
+        //============Bagian Kelas=========
+        //Modul 4, Method
+        //Modul 6, Setter
+        JLabel labelJenisKelas = new JLabel("Jenis Kelas");
+        labelJenisKelas.setBounds(20, 130, 150, 30);
+        form.add(labelJenisKelas);
+
+        JComboBox comboBoxTipeKelas = new JComboBox<>(TipeKelas);
+        comboBoxTipeKelas.setBounds(180,130, 200,20);
+        form.add(comboBoxTipeKelas);
+
+        //============Bagian Tanggal Keberangkatan=========
+        //Modul 4, Method
+        //Modul 6, Setter
+        JLabel labelTanggal = new JLabel("Tanggal keberangkatan");
+        labelTanggal.setBounds(20,220,150,20);
+        form.add(labelTanggal);
+
+        JComboBox comboBoxHari = new JComboBox<>(Hari);
+        comboBoxHari.setBounds(180,220,60,20);
+        form.add(comboBoxHari);
+
+        JComboBox comboBoxBulan = new JComboBox<>(Bulan);
+        comboBoxBulan.setBounds(250,220,100,20);
+        form.add(comboBoxBulan);
+
+        JTextField textFieldTahun = new JTextField();
+        textFieldTahun.setBounds(360, 220,60,20);
+        form.add(textFieldTahun);
+
+        JButton buttonReset = new JButton("Reset");
+        buttonReset.setBounds(330,250,90,20);
+        form.add(buttonReset);
+
+        //Supaya Hanya Bisa Angka
+        //Modul 2, Pengkondisian
+        //Modul 4, Method
+        //Modul 5, Polymorphism
+        //Modul 6, Setter & Getter
+        ((AbstractDocument) textFieldTahun.getDocument()).setDocumentFilter(new DocumentFilter() {
+            @Override
+            public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+                if (string != null && string.matches("\\d*")) { // Allow only digits
+                    super.insertString(fb, offset, string, attr);
+                }
+            }
+
+            @Override
+            public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                if (text != null && text.matches("\\d*")) { // Allow only digits
+                    super.replace(fb, offset, length, text, attrs);
+                }
+            }
+        });
+
+        //============Bagian Menampilkan Identitas Pebumpang =========
+        //Modul 1, Variabel & Array
+        //Modul 3, Perulangan For
+        //Modul 4, Method
+        //Modul 5, polymorphism
+        //Modul 6, Setter & Getter
+        buttonIsiIdentitas.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int jumlah = comboBoxPenumpang.getSelectedIndex();
+                int Penumpang = jumlah + 1;
+                for (int i = 1; i < Penumpang; i++) {
+                    JLabel labelDataPenumpang = new JLabel("Penumpang ke-" + i);
+                    form.add(labelDataPenumpang);
+                    labelDataPenumpang.setBounds(20, 220 + (60*i), 100, 30);
+
+                    JLabel labelNamaPnpg = new JLabel("Nama");
+                    form.add(labelNamaPnpg);
+                    labelNamaPnpg.setBounds(20,240 + (60*i), 100,20);
+
+                    JTextField textFieldNamaPnpg = new JTextField();
+                    form.add(textFieldNamaPnpg);
+                    textFieldNamaPnpg.setBounds(180,240 + (60*i), 240,20);
+
+                    //Supaya Hanya Bisa Huruf
+                    //Modul 2, Pengkondisian
+                    //Modul 4, Method
+                    //Modul 5, Polymorphism
+                    //Modul 6, Setter & Getter
+                    ((AbstractDocument) textFieldNamaPnpg.getDocument()).setDocumentFilter(new DocumentFilter() {
+                        @Override
+                        public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException, BadLocationException {
+                            if (string != null && !string.matches(".*\\d.*")) {
+                                super.insertString(fb, offset, string, attr);
+                            }
+                        }
+
+                        @Override
+                        public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                            if (text != null && !text.matches(".*\\d.*")) {
+                                super.replace(fb, offset, length, text, attrs);
+                            }
+                        }
+                    });
+
+                    JLabel labelNIK = new JLabel("NIK");
+                    form.add(labelNIK);
+                    labelNIK.setBounds(20, 260 + (60*i), 100, 20);
+
+                    JTextField textFieldNIK = new JTextField();
+                    form.add(textFieldNIK);
+                    textFieldNIK.setBounds(180, 260 + (60*i), 120, 20);
+
+                    //Supaya Hanya Bisa Angka
+                    //Modul 2, Pengkondisian
+                    //Modul 4, Method
+                    //Modul 5, Polymorphism
+                    //Modul 6, Setter & Getter
+                    ((AbstractDocument) textFieldNIK.getDocument()).setDocumentFilter(new DocumentFilter() {
+                        @Override
+                        public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException {
+                            if (string != null && string.matches("\\d*")) { // Allow only digits
+                                super.insertString(fb, offset, string, attr);
+                            }
+                        }
+
+                        @Override
+                        public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
+                            if (text != null && text.matches("\\d*")) { // Allow only digits
+                                super.replace(fb, offset, length, text, attrs);
+                            }
+                        }
+                    });
+
+                    JComboBox comboBoxKelamin = new JComboBox<>(Kelamin);
+                    comboBoxKelamin.setVisible(true);
+                    comboBoxKelamin.setBounds(310, 260 + (60*i), 100, 20);
+                    form.add(comboBoxKelamin);
+                    form.setVisible(true);
+                }
+                form.repaint();
+            }
+        });
+
+        //============Bagian Menampilkan Rute =========
+        //Modul 1, Variabel & Array
+        //Modul 4, Method
+        //Modul 5, Polymorphism
+        //Modul 6, Setter
+        buttonLihatRute.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int Kapal = comboBoxNamaKapal.getSelectedIndex();
+                int K = Kapal - 1;
+                JLabel labelAsal = new JLabel("Asal");
+                labelAsal.setBounds(20, 160, 150, 30 );
+                form.add(labelAsal);
+
+                JLabel labelTujuan = new JLabel("Tujuan");
+                labelTujuan.setBounds(20, 190, 150, 30 );
+                form.add(labelTujuan);
+
+                JComboBox comboBoxAsal = new JComboBox<>(Kota.get(K));
+                form.add(comboBoxAsal);
+                comboBoxAsal.setBounds(180,160, 200,20);
+
+                JComboBox comboBoxTujuan = new JComboBox<>(Kota.get(K));
+                form.add(comboBoxTujuan);
+                comboBoxTujuan.setBounds(180,190, 200,20);
+
+                JButton buttonLanjut = new JButton("Lihat Harga");
+                buttonLanjut.setBounds(270,580,150,20);
+                form.add(buttonLanjut);
+                Random rand = new Random();
+                int KodeBayar = rand.nextInt(1000000);
+
+                buttonLanjut.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        //============Bagian Menghitung Harga =========
+                        //Modul 1, Variabel & Array
+                        int HargaPerKelas = 150000;
+                        int HargaDasar = 120000;
+
+                        int Asal = comboBoxAsal.getSelectedIndex();
+                        int Tujuan =comboBoxTujuan.getSelectedIndex();
+                        final int[] Jarak = {Math.abs(Tujuan - Asal)};
+
+                        int Penumpang = comboBoxPenumpang.getSelectedIndex();
+                        int Kelas = comboBoxTipeKelas.getSelectedIndex();
+
+                        double HargaKelas = HargaPerKelas*Kelas;
+                        double HargaKRute = HargaDasar*Jarak[0];
+                        double HargaTotal = (HargaKRute+HargaKelas)*Penumpang;
+
+                        //============Bagian Menampilkan Harga =========
+                        //Modul 4, Method
+                        JLabel labelHarga = new JLabel("Harga Tiket = " + HargaTotal );
+                        form.add(labelHarga);
+                        labelHarga.setBounds(20,580,200,20);
+                        labelHarga.setVisible(true);
+
+                        JButton buttonKodeBayar = new JButton("Buat Kode Bayar");
+                        buttonKodeBayar.setBounds(270,610,150, 20);
+                        form.add(buttonKodeBayar);
+
+                        //============Bagian Menampilkan Kode Bayar =========
+                        //Modul 4, Method
+                        //Modul 5, Polymorphism
+                        //Modul 6, Setter
+                        buttonKodeBayar.addActionListener(new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                JLabel labelKodeBayar = new JLabel("Kode Pembayaran anda = " + KodeBayar);
+                                form.add(labelKodeBayar);
+                                labelKodeBayar.setBounds(20,610, 200,20);
+                                form.setVisible(true);
+                            }
+                        });
+                    }
+                });
+
+                form.repaint();
+
+            }
+        });
+
+        //============ Fungsi Untuk Merest Program =========
+        //Modul 4, Method
+        //Modul 5, Polymorphism
+        //Modul 6, Setter
+        buttonReset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                textNamaPembeli.setText("");
+
+                //Mereset Input Dari Setiap Komponen
+                comboBoxNamaKapal.setSelectedIndex(0);
+                comboBoxPenumpang.setSelectedIndex(0);
+                comboBoxTipeKelas.setSelectedIndex(0);
+                comboBoxHari.setSelectedIndex(0);
+                comboBoxBulan.setSelectedIndex(0);
+                textFieldTahun.setText("");
+                form.getContentPane().removeAll();
+
+                //Memunculkan Komponen Kembali
+                form.add(labelJudul);
+                form.add(labelPembeli);
+                form.add(textNamaPembeli);
+                form.add(labelNamaKapal);
+                form.add(comboBoxNamaKapal);
+                form.add(buttonLihatRute);
+                form.add(labelPenumpang);
+                form.add(comboBoxPenumpang);
+                form.add(buttonIsiIdentitas);
+                form.add(labelJenisKelas);
+                form.add(comboBoxTipeKelas);
+                form.add(labelTanggal);
+                form.add(comboBoxHari);
+                form.add(comboBoxBulan);
+                form.add(textFieldTahun);
+                form.add(buttonReset);
+                form.repaint();
+            }
+        });
+        form.setVisible(true);
+    }
+}
